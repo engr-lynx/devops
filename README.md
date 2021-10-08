@@ -86,5 +86,17 @@ docker push <your ECR repo>:latest
 
 1. Sign-in to your [AWS console](https://console.aws.amazon.com/).
 1. Transfer to Tokyo region.
+1. Go to [CodePipeline](https://ap-northeast-1.console.aws.amazon.com/codesuite/codepipeline/start)
+1. Delete the pipeline you created.
+1. Go to [App Runner](https://ap-northeast-1.console.aws.amazon.com/apprunner/home).
+1. Delete the service you created.
+1. Go to [ECR](https://ap-northeast-1.console.aws.amazon.com/ecr/get-started).
+1. Delete the repository you created.
+1. Go to [CodeCommit](https://ap-northeast-1.console.aws.amazon.com/codesuite/codecommit/start).
+1. Delete the repository you created.
 1. Go to [CloudFormation](https://ap-northeast-1.console.aws.amazon.com/cloudformation/home?region=ap-northeast-1).
-1. Delete all the CloudFormation stacks you deployed there.
+1. Delete the Magento cloudformation stack that was created by CDK.
+1. Go to [Cloud9](https://ap-northeast-1.console.aws.amazon.com/cloud9/home/product).
+1. Delete the environment you created.
+1. Go to [Secrets Manager](https://ap-northeast-1.console.aws.amazon.com/secretsmanager/home).
+1. Delete the 2 secrets you created.

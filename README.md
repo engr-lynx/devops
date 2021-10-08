@@ -122,9 +122,12 @@ phases:
 1. Click Next.
 1. Click "Skip Deploy Stage".
 1. Click "Create pipeline".
-1. Go to your Cloud9 enviroment. Run the following commands.
+1. Go to your Cloud9 enviroment. Open a new terminal. Run the following commands.
 ```
-
+git clone https://github.com/engr-lynx/mage2-cont.git
+cd mage2-cont/
+git remote add aws <CodeCommit https URL>
+git push aws master
 ```
 
 ## Clean-up Instructions

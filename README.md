@@ -57,6 +57,30 @@ docker push <your ECR repo>:latest
 1. Replace the port number to 80.
 1. Click Next.
 1. Click Create & Deploy.
+1. Go to [CodePipeline](https://ap-northeast-1.console.aws.amazon.com/codesuite/codepipeline/start)
+1. Create pipeline.
+1. Provide a pipeline name. You need to name it uniquely if you are sharing an account with others.
+1. Click Next.
+1. Select AWS CodeCommit as service provider.
+1. Select the CodeCommit repository you created.
+1. Put in "master" as the branch.
+1. Click Next.
+1. Select AWS CodeBuild as build provider.
+1. Click "Create Project". This will open a new window.
+1. Provide a project name. You need to name it uniquely if you are sharing an account with others.
+1. Select "Amazon Linux 2" for "Operating System".
+1. Select "Standard" for "Runtime".
+1. Select "aws/codebuild/amazonlinux2-x86_64-standard:3.0" for "Image".
+1. Select "Insert build commands".
+1. Put in the following build spec:
+```
+<to follow>
+```
+1. Click "Switch to Editor".
+1. Click "Continue to Pipeline". This will bring you back to the main CodePipeline window.
+1. Click Next.
+1. Click "Skip Deploy Stage".
+1. Click "Create pipeline".
 
 ## Clean-up Instructions
 

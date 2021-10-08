@@ -39,6 +39,9 @@ git clone https://github.com/engr-lynx/aws-mage-infra.git
 cd aws-mage-infra
 . ./bin/env.sh
 ./bin/prep.sh
+```
+1. Run the following commands from the terminal:
+```
 ./bin/deploy.sh
 ```
 1. Open another terminal in your Cloud9 environment. Run the following commands:

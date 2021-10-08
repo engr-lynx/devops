@@ -45,6 +45,7 @@ cd aws-mage-infra
 ```
 docker pull public.ecr.aws/z0z6r0u2/php7.4-apache:latest
 docker tag public.ecr.aws/z0z6r0u2/php7.4-apache:latest <your ECR repo>:latest
+aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin <AWS account ID>.dkr.ecr.ap-northeast-1.amazonaws.com
 docker push <your ECR repo>:latest
 ```
 1. Important: Don't forget to clean-up your deployment.

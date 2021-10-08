@@ -43,8 +43,8 @@ cd aws-mage-infra
 ```
 1. Open another terminal in your Cloud9 environment. Run the following commands:
 ```
-docker pull public.ecr.aws/z0z6r0u2/magento2-php-apache:latest
-docker tag public.ecr.aws/z0z6r0u2/magento2-php-apache:latest <your ECR repo>:latest
+docker pull public.ecr.aws/z0z6r0u2/php7.4-apache:latest
+docker tag public.ecr.aws/z0z6r0u2/php7.4-apache:latest <your ECR repo>:latest
 docker push <your ECR repo>:latest
 ```
 1. Important: Don't forget to clean-up your deployment.

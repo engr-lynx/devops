@@ -75,9 +75,47 @@ docker push <your ECR repo>:latest
 1. Select "Standard" for "Runtime".
 1. Select "aws/codebuild/amazonlinux2-x86_64-standard:3.0" for "Image".
 1. Select "Insert build commands".
+1. Go to RDS. Get the created DB host name.
+1. Go to ElasticSearch. Get the created ES host domain.
+1. Go to Secrets Manager. Get the 4 secret names (2 you created, 2 created by CDK).
 1. Put in the following build spec:
 ```
-<to follow>
+version: "0.2"
+env:
+  variables:
+    BASE_URL: <App Runner default domain>
+    DEPLOY_SAMPLE: "true"
+    DB_HOST: <DB host name>
+    DB_NAME: magento
+    ES_HOST: https://<ES host domain>
+    DOCKER_BUILDKIT: 1
+  secrets-manager:
+    DB_USERNAME: <DB Credential Secret>:username
+    DB_PASSWORD: <DB Credential Secret>:password
+    ES_USERNAME: <ES Credential Secret>:username
+    ES_PASSWORD: <ES Credential Secret>:password
+    MP_USERNAME: <Magento Marketplace Credential Secret>:username
+    MP_PASSWORD: <Magento Marketplace Credential Secret>:password
+    ADMIN_FIRST_NAME: <Magento Admin Secret>:firstName
+    ADMIN_LAST_NAME: <Magento Admin Secret>:lastName
+    ADMIN_EMAIL: <Magento Admin Secret>:email
+    ADMIN_URL_PATH: <Magento Admin Secret>:urlPath
+    ADMIN_USERNAME: <Magento Admin Secret>:username
+    ADMIN_PASSWORD: <Magento Admin Secret>:password
+phases:
+  install:
+    runtime-versions:
+      docker: 19
+    commands: []
+  pre_build:
+    commands:
+      - aws ecr get-login-password | docker login --username AWS --password-stdin 152242201060.dkr.ecr.ap-northeast-1.amazonaws.com/magento-webimagerepo43565df4-j1hrivpjeztr
+      - docker pull 152242201060.dkr.ecr.ap-northeast-1.amazonaws.com/magento-webimagerepo43565df4-j1hrivpjeztr:latest || true
+  build:
+    commands: docker build --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg BASE_URL="${BASE_URL}" --build-arg DEPLOY_SAMPLE="${DEPLOY_SAMPLE}" --build-arg DB_HOST="${DB_HOST}" --build-arg DB_NAME="${DB_NAME}" --build-arg ES_HOST="${ES_HOST}" --build-arg DB_USERNAME="${DB_USERNAME}" --build-arg DB_PASSWORD="${DB_PASSWORD}" --build-arg ES_USERNAME="${ES_USERNAME}" --build-arg ES_PASSWORD="${ES_PASSWORD}" --build-arg MP_USERNAME="${MP_USERNAME}" --build-arg MP_PASSWORD="${MP_PASSWORD}" --build-arg ADMIN_FIRST_NAME="${ADMIN_FIRST_NAME}" --build-arg ADMIN_LAST_NAME="${ADMIN_LAST_NAME}" --build-arg ADMIN_EMAIL="${ADMIN_EMAIL}" --build-arg ADMIN_URL_PATH="${ADMIN_URL_PATH}" --build-arg ADMIN_USERNAME="${ADMIN_USERNAME}" --build-arg ADMIN_PASSWORD="${ADMIN_PASSWORD}" --cache-from 152242201060.dkr.ecr.ap-northeast-1.amazonaws.com/magento-webimagerepo43565df4-j1hrivpjeztr:latest -t 152242201060.dkr.ecr.ap-northeast-1.amazonaws.com/magento-webimagerepo43565df4-j1hrivpjeztr:latest .
+  post_build:
+    commands:
+      - docker push <ECR repository>
 ```
 1. Click "Switch to Editor".
 1. Click "Continue to Pipeline". This will bring you back to the main CodePipeline window.

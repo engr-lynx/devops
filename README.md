@@ -75,8 +75,8 @@ docker push <your ECR repo>:latest
 1. Select "Standard" for "Runtime".
 1. Select "aws/codebuild/amazonlinux2-x86_64-standard:3.0" for "Image".
 1. Select "Insert build commands".
-1. Go to RDS. Get the created DB host name.
-1. Go to ElasticSearch. Get the created ES host domain.
+1. Go to [RDS](https://ap-northeast-1.console.aws.amazon.com/rds/home). Get the created DB endpoint name.
+1. Go to [ElasticSearch](https://ap-northeast-1.console.aws.amazon.com/esv3/home). Get the created ES domain endpoint.
 1. Go to Secrets Manager. Get the 4 secret names (2 you created, 2 created by CDK).
 1. Put in the following build spec:
 ```
@@ -109,8 +109,8 @@ phases:
     commands: []
   pre_build:
     commands:
-      - aws ecr get-login-password | docker login --username AWS --password-stdin 152242201060.dkr.ecr.ap-northeast-1.amazonaws.com/magento-webimagerepo43565df4-j1hrivpjeztr
-      - docker pull 152242201060.dkr.ecr.ap-northeast-1.amazonaws.com/magento-webimagerepo43565df4-j1hrivpjeztr:latest || true
+      - aws ecr get-login-password | docker login --username AWS --password-stdin <AWS account ID>.dkr.ecr.ap-northeast-1.amazonaws.com
+      - docker pull <ECR repository>:latest || true
   build:
     commands: docker build --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg BASE_URL="${BASE_URL}" --build-arg DEPLOY_SAMPLE="${DEPLOY_SAMPLE}" --build-arg DB_HOST="${DB_HOST}" --build-arg DB_NAME="${DB_NAME}" --build-arg ES_HOST="${ES_HOST}" --build-arg DB_USERNAME="${DB_USERNAME}" --build-arg DB_PASSWORD="${DB_PASSWORD}" --build-arg ES_USERNAME="${ES_USERNAME}" --build-arg ES_PASSWORD="${ES_PASSWORD}" --build-arg MP_USERNAME="${MP_USERNAME}" --build-arg MP_PASSWORD="${MP_PASSWORD}" --build-arg ADMIN_FIRST_NAME="${ADMIN_FIRST_NAME}" --build-arg ADMIN_LAST_NAME="${ADMIN_LAST_NAME}" --build-arg ADMIN_EMAIL="${ADMIN_EMAIL}" --build-arg ADMIN_URL_PATH="${ADMIN_URL_PATH}" --build-arg ADMIN_USERNAME="${ADMIN_USERNAME}" --build-arg ADMIN_PASSWORD="${ADMIN_PASSWORD}" --cache-from 152242201060.dkr.ecr.ap-northeast-1.amazonaws.com/magento-webimagerepo43565df4-j1hrivpjeztr:latest -t 152242201060.dkr.ecr.ap-northeast-1.amazonaws.com/magento-webimagerepo43565df4-j1hrivpjeztr:latest .
   post_build:
@@ -122,6 +122,10 @@ phases:
 1. Click Next.
 1. Click "Skip Deploy Stage".
 1. Click "Create pipeline".
+1. Go to your Cloud9 enviroment. Run the following commands.
+```
+
+```
 
 ## Clean-up Instructions
 
